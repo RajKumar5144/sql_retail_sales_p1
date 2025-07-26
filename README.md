@@ -186,6 +186,50 @@ SELECT
 FROM hourly_sale
 GROUP BY shift
 ```
+11. **Identify repeat customers (who made more than 1 purchase)**:
+```sql
+SELECT 
+  customer_id,
+  COUNT(*) AS total_orders
+FROM retail_sales
+GROUP BY customer_id
+HAVING total_orders > 1;
+```
+12. **Day of the week performance analysis**:
+```sql
+SELECT 
+  DAYNAME(sale_date) AS day_of_week,
+  COUNT(*) AS total_orders,
+  ROUND(AVG(total_sale)) AS avg_sale
+FROM retail_sales
+GROUP BY day_of_week
+ORDER BY FIELD(day_of_week, 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday');
+```
+13. **Most profitable category (Total Sale - COGS)**:
+```sql
+SELECT 
+  category,
+  SUM(total_sale - cogs) AS total_profit
+FROM retail_sales
+GROUP BY category
+ORDER BY total_profit DESC
+LIMIT 1;
+```
+
+14. **Age group-based sales behavior**:
+```sql
+SELECT
+  CASE
+    WHEN age < 20 THEN '<20'
+    WHEN age BETWEEN 20 AND 29 THEN '20-29'
+    WHEN age BETWEEN 30 AND 39 THEN '30-39'
+    ELSE '40+'
+  END AS age_group,
+  COUNT(*) AS total_orders,
+  AVG(total_sale) AS avg_sale
+FROM retail_sales
+GROUP BY age_group;
+```
 
 ## Findings
 
@@ -215,13 +259,3 @@ This project serves as a comprehensive introduction to SQL for data analysts, co
 
 This project is part of my portfolio, showcasing the SQL skills essential for data analyst roles. If you have any questions, feedback, or would like to collaborate, feel free to get in touch!
 
-### Stay Updated and Join the Community
-
-For more content on SQL, data analysis, and other data-related topics, make sure to follow me on social media and join our community:
-
-- **YouTube**: [Subscribe to my channel for tutorials and insights](https://www.youtube.com/@zero_analyst)
-- **Instagram**: [Follow me for daily tips and updates](https://www.instagram.com/zero_analyst/)
-- **LinkedIn**: [Connect with me professionally](https://www.linkedin.com/in/najirr)
-- **Discord**: [Join our community to learn and grow together](https://discord.gg/36h5f2Z5PK)
-
-Thank you for your support, and I look forward to connecting with you!
